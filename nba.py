@@ -38,3 +38,4 @@ for g in data['games']:
   print('\n{} {:3} - {:>3} {} {}'.format(
         hTeam.tri, hTeam.score, vTeam.score, vTeam.tri, txt))
   print('{:<8} {:>8}'.format(hTeam.win_loss, vTeam.win_loss))
+# test
