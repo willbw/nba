@@ -17,13 +17,13 @@ class Team(object):
 adj = 0
 if len(sys.argv) > 1: 
   try:
-    adj = abs(int(sys.argv[1]))
+    adj = int(sys.argv[1])
   except ValueError:
     print("usage: nba [n]")
     print("where n is the optional number of days you wish to go back")
     sys.exit()
 
-day = date.today() - timedelta(1 + adj)
+day = date.today() - timedelta(1) + timedelta(adj)
 d = '{:%Y%m%d}'.format(day)
 
 url = f'http://data.nba.net/10s/prod/v1/{d}/scoreboard.json'
@@ -35,7 +35,8 @@ print(f'Game day: {day}')
 for g in data['games']:
   txt = g['nugget']['text']
   vTeam, hTeam = Team(g['vTeam']), Team(g['hTeam'])
-  print('\n{} {:3} - {:>3} {} {}'.format(
+  print('\n{}  {:3} - {:>3}  {} {}'.format(
         hTeam.tri, hTeam.score, vTeam.score, vTeam.tri, txt))
-  print('{:<8} {:>8}'.format(hTeam.win_loss, vTeam.win_loss))
-# test
+  print('{:<9} {:>9}'.format(hTeam.win_loss, vTeam.win_loss))
+
+input('>')
