@@ -24,8 +24,9 @@ class Game(object):
     self.clock = self.format_clock(obj['clock'])
     self.nugget = obj['nugget']['text']
     self.arena = obj['arena']['name']
-    self.gameId = obj['gameId']
+    self.id = obj['gameId']
     self.start = self.format_time(obj['startTimeUTC'])
+    self.date = self.game_date(obj['startTimeUTC'])
     self.data = obj
 
 
@@ -47,9 +48,20 @@ class Game(object):
     else:
       return clock + 's'
   
+  def game_date(self, time):
+    t = parser.parse(time) + timedelta(hours=-5) 
+    return t.strftime("%Y%m%d")
+  
   def format_time(self, time):
     t = parser.parse(time) + timedelta(hours=TIME_AHEAD) 
     return t.strftime("%a %I:%M %p")
+
+  def get_boxscore(self):
+    url = f'http://data.nba.net/10s/prod/v1/{self.date}/{self.id}_boxscore.json'
+    print(url)
+    with urllib.request.urlopen(url) as response:
+        data = json.load(response)
+    self.box = data
   
   def __str__(self):
     s = '{:5}{:4}-{:>4}{:>5}'.format(self.h.tri, self.h.score, self.v.score, self.v.tri)
@@ -62,6 +74,7 @@ class Game(object):
     s += '\n{:<9} {:>9}'.format(self.h.win_loss, self.v.win_loss)
     s += '   ' + self.nugget
     return s
+  
 
     
 #  print_game(self):
