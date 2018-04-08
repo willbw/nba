@@ -16,4 +16,4 @@ Type `nba` into command line to get scores
 
 Type `s` to see scores again, or type the game number to get the box score for that game
 
-To quit, type `cmd+d` (standard EOF input)
+Type `q` to quit, or type `cmd+d` (standard EOF input)
